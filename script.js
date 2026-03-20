@@ -1,54 +1,20 @@
-// 🔥 Firebase Config (replace)
+// 🔥 YOUR FIREBASE CONFIG (PUT CORRECT VALUES)
 const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  databaseURL: "YOUR_DB",
-  projectId: "YOUR_ID"
+  apiKey: "AIzaSyDvYT4z0C37ZXiuYkKJJeWH-T4lVayopQQ",
+  authDomain: "smart-home-dashboard-dc771.firebaseapp.com",
+  databaseURL: "https://smart-home-dashboard-dc771-default-rtdb.firebaseio.com",
+  projectId: "smart-home-dashboard-dc771",
+  storageBucket: "smart-home-dashboard-dc771.firebasestorage.app",
+  messagingSenderId: "701911123128",
+  appId: "1:701911123128:web:2986d8c65f27e9797f204d"
 };
 
+
+// INIT
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🎯 ALERT SYSTEM
-function addAlert(msg) {
-  const li = document.createElement("li");
-  li.innerText = msg;
-  document.getElementById("alertList").appendChild(li);
-}
-
-// 🔄 DATA FETCH
-db.ref("/").on("value", snap => {
-  const d = snap.val();
-
-  temp.innerText = d.temp + " °C";
-  air.innerText = d.air;
-  soil.innerText = d.soil;
-  water.innerText = d.water;
-  light.innerText = d.light;
-
-  // 🚨 GAS ALERT
-  if (d.gas == 1) {
-    gas.innerText = "LEAK!";
-    gasCard.style.background = "red";
-    addAlert("⚠️ Gas Leak Detected");
-  } else {
-    gas.innerText = "Safe";
-  }
-
-  updateChart(d.temp);
-});
-
-// 🎛 CONTROL
-function toggleDevice(device) {
-  db.ref("/controls/" + device).set(true);
-}
-
-// 🌙 THEME TOGGLE
-function toggleTheme() {
-  document.body.classList.toggle("light-mode");
-}
-
-// 📊 GRAPH
+// 📊 CHART SETUP
 let labels = [];
 let dataPoints = [];
 
@@ -60,15 +26,33 @@ const chart = new Chart(ctx, {
     labels: labels,
     datasets: [{
       label: "Temperature",
-      data: dataPoints,
-      borderWidth: 2
+      data: dataPoints
     }]
   }
 });
 
-function updateChart(temp) {
+// 🔄 FETCH DATA
+db.ref("/").on("value", (snap) => {
+  const d = snap.val();
+
+  if (!d) return;
+
+  document.getElementById("temp").innerText = d.temp + " °C";
+  document.getElementById("air").innerText = d.air;
+  document.getElementById("soil").innerText = d.soil;
+  document.getElementById("water").innerText = d.water;
+
+  // 🚨 GAS
+  if (d.gas == 1) {
+    document.getElementById("gas").innerText = "LEAK!";
+    document.getElementById("gasCard").style.background = "red";
+  } else {
+    document.getElementById("gas").innerText = "Safe";
+  }
+
+  // 📊 GRAPH UPDATE
   labels.push(new Date().toLocaleTimeString());
-  dataPoints.push(temp);
+  dataPoints.push(d.temp);
 
   if (labels.length > 10) {
     labels.shift();
@@ -76,4 +60,4 @@ function updateChart(temp) {
   }
 
   chart.update();
-}
+});

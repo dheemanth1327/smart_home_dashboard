@@ -1,76 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Home Guardian</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Home Dashboard</title>
+  <link rel="stylesheet" href="style.css">
 
-<link rel="stylesheet" href="style.css">
+  <!-- Firebase (COMPAT VERSION - IMPORTANT) -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
-
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
 
-<header>
-  <h1>🏠 Smart Home Guardian</h1>
-  <button onclick="toggleTheme()">🌙</button>
-</header>
+<h1>🏠 Smart Home Guardian</h1>
 
 <div class="dashboard">
 
-  <!-- SENSOR CARDS -->
-  <div class="card">
-    <h3>🌡 Temperature</h3>
-    <p id="temp">--</p>
-  </div>
-
-  <div class="card">
-    <h3>🌫 Air Quality</h3>
-    <p id="air">--</p>
-  </div>
-
-  <div class="card alert" id="gasCard">
-    <h3>🔥 Gas</h3>
-    <p id="gas">Safe</p>
-  </div>
-
-  <div class="card">
-    <h3>🌱 Soil</h3>
-    <p id="soil">--</p>
-  </div>
-
-  <div class="card">
-    <h3>💧 Water Tank</h3>
-    <p id="water">--</p>
-  </div>
-
-  <div class="card">
-    <h3>💡 Light</h3>
-    <p id="light">--</p>
-  </div>
+  <div class="card"><h3>🌡 Temp</h3><p id="temp">--</p></div>
+  <div class="card"><h3>🌫 Air</h3><p id="air">--</p></div>
+  <div class="card" id="gasCard"><h3>🔥 Gas</h3><p id="gas">--</p></div>
+  <div class="card"><h3>🌱 Soil</h3><p id="soil">--</p></div>
+  <div class="card"><h3>💧 Water</h3><p id="water">--</p></div>
 
 </div>
 
-<!-- ALERT PANEL -->
-<div class="alerts">
-  <h2>🚨 Alerts</h2>
-  <ul id="alertList"></ul>
-</div>
-
-<!-- CONTROL PANEL -->
-<div class="controls">
-  <h2>🎛 Controls</h2>
-  <button onclick="toggleDevice('light')">Toggle Light</button>
-  <button onclick="toggleDevice('pump')">Toggle Pump</button>
-</div>
-
-<!-- GRAPH -->
 <canvas id="chart"></canvas>
 
 <script src="script.js"></script>
+
 </body>
 </html>
