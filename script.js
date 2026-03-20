@@ -1,46 +1,79 @@
-// 🔥 Firebase config (replace with yours)
+// 🔥 Firebase Config (replace)
 const firebaseConfig = {
   apiKey: "YOUR_KEY",
   authDomain: "YOUR_DOMAIN",
-  databaseURL: "YOUR_DB_URL",
+  databaseURL: "YOUR_DB",
   projectId: "YOUR_ID"
 };
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
-// 🔄 Read data
-db.ref("/").on("value", (snapshot) => {
-  const data = snapshot.val();
+// 🎯 ALERT SYSTEM
+function addAlert(msg) {
+  const li = document.createElement("li");
+  li.innerText = msg;
+  document.getElementById("alertList").appendChild(li);
+}
 
-  document.getElementById("temp").innerText = data.temp + " °C";
-  document.getElementById("air").innerText = data.air;
-  document.getElementById("soil").innerText = data.soil;
-  document.getElementById("water").innerText = data.water;
-  document.getElementById("light").innerText = data.light;
+// 🔄 DATA FETCH
+db.ref("/").on("value", snap => {
+  const d = snap.val();
 
-  // 🚨 Gas Alert
-  if (data.gas == 1) {
-    document.getElementById("gas").innerText = "LEAK!";
-    document.getElementById("gasCard").style.background = "red";
-    alert("⚠️ Gas Leak Detected!");
+  temp.innerText = d.temp + " °C";
+  air.innerText = d.air;
+  soil.innerText = d.soil;
+  water.innerText = d.water;
+  light.innerText = d.light;
+
+  // 🚨 GAS ALERT
+  if (d.gas == 1) {
+    gas.innerText = "LEAK!";
+    gasCard.style.background = "red";
+    addAlert("⚠️ Gas Leak Detected");
   } else {
-    document.getElementById("gas").innerText = "Safe";
+    gas.innerText = "Safe";
   }
 
+  updateChart(d.temp);
 });
 
-// 📊 Chart
-const ctx = document.getElementById('chart');
+// 🎛 CONTROL
+function toggleDevice(device) {
+  db.ref("/controls/" + device).set(true);
+}
 
-new Chart(ctx, {
-  type: 'line',
+// 🌙 THEME TOGGLE
+function toggleTheme() {
+  document.body.classList.toggle("light-mode");
+}
+
+// 📊 GRAPH
+let labels = [];
+let dataPoints = [];
+
+const ctx = document.getElementById("chart");
+
+const chart = new Chart(ctx, {
+  type: "line",
   data: {
-    labels: [],
+    labels: labels,
     datasets: [{
-      label: 'Temperature',
-      data: [],
+      label: "Temperature",
+      data: dataPoints,
       borderWidth: 2
     }]
   }
 });
+
+function updateChart(temp) {
+  labels.push(new Date().toLocaleTimeString());
+  dataPoints.push(temp);
+
+  if (labels.length > 10) {
+    labels.shift();
+    dataPoints.shift();
+  }
+
+  chart.update();
+}
