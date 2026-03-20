@@ -18,12 +18,37 @@
 
 <div class="dashboard">
 
-  <div class="card"><h3>🌡 Temp</h3><p id="temp">--</p></div>
-  <div class="card"><h3>🌫 Air</h3><p id="air">--</p></div>
-  <div class="card" id="gasCard"><h3>🔥 Gas</h3><p id="gas">--</p></div>
-  <div class="card"><h3>🌱 Soil</h3><p id="soil">--</p></div>
-  <div class="card"><h3>💧 Water</h3><p id="water">--</p></div>
+  <div class="card" onclick="selectSensor('temp')">
+    <h3>🌡 Temperature</h3>
+    <p id="temp">--</p>
+  </div>
 
+  <div class="card" onclick="selectSensor('air')">
+    <h3>🌫 Air Quality</h3>
+    <p id="air">--</p>
+  </div>
+
+  <div class="card" onclick="selectSensor('gas')">
+    <h3>🔥 Gas</h3>
+    <p id="gas">--</p>
+  </div>
+
+  <div class="card" onclick="selectSensor('soil')">
+    <h3>🌱 Soil</h3>
+    <p id="soil">--</p>
+  </div>
+
+  <div class="card" onclick="selectSensor('water')">
+    <h3>💧 Water</h3>
+    <p id="water">--</p>
+  </div>
+
+</div>
+
+<!-- GRAPH -->
+<div id="graphContainer" style="display:none;">
+  <h2 id="graphTitle">Graph</h2>
+  <canvas id="chart"></canvas>
 </div>
 
 <canvas id="chart"></canvas>

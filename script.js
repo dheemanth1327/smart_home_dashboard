@@ -15,6 +15,8 @@ firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
 // 📊 CHART SETUP
+let selectedSensor = null;
+
 let labels = [];
 let dataPoints = [];
 
@@ -25,39 +27,24 @@ const chart = new Chart(ctx, {
   data: {
     labels: labels,
     datasets: [{
-      label: "Temperature",
-      data: dataPoints
+      label: "Sensor Data",
+      data: dataPoints,
+      borderWidth: 2
     }]
   }
 });
 
-// 🔄 FETCH DATA
-db.ref("/").on("value", (snap) => {
-  const d = snap.val();
+// 🎯 SELECT SENSOR
+function selectSensor(sensor) {
+  selectedSensor = sensor;
 
-  if (!d) return;
+  document.getElementById("graphContainer").style.display = "block";
+  document.getElementById("graphTitle").innerText = sensor.toUpperCase() + " GRAPH";
 
-  document.getElementById("temp").innerText = d.temp + " °C";
-  document.getElementById("air").innerText = d.air;
-  document.getElementById("soil").innerText = d.soil;
-  document.getElementById("water").innerText = d.water;
-
-  // 🚨 GAS
-  if (d.gas == 1) {
-    document.getElementById("gas").innerText = "LEAK!";
-    document.getElementById("gasCard").style.background = "red";
-  } else {
-    document.getElementById("gas").innerText = "Safe";
-  }
-
-  // 📊 GRAPH UPDATE
-  labels.push(new Date().toLocaleTimeString());
-  dataPoints.push(d.temp);
-
-  if (labels.length > 10) {
-    labels.shift();
-    dataPoints.shift();
-  }
-
+  // Reset graph
+  labels = [];
+  dataPoints = [];
+  chart.data.labels = labels;
+  chart.data.datasets[0].data = dataPoints;
   chart.update();
-});
+}
