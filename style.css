@@ -1,28 +1,30 @@
 body {
   margin: 0;
-  font-family: Arial;
-  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  font-family: 'Segoe UI';
+  background: linear-gradient(135deg, #141e30, #243b55);
   color: white;
-  text-align: center;
+  transition: 0.3s;
 }
 
-h1 {
-  padding: 20px;
-}
-
-.container {
+header {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 15px;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  padding: 20px;
 }
 
 .card {
   background: rgba(255,255,255,0.1);
-  backdrop-filter: blur(10px);
-  margin: 10px;
+  backdrop-filter: blur(12px);
   padding: 20px;
   border-radius: 15px;
-  width: 200px;
+  text-align: center;
   transition: 0.3s;
 }
 
@@ -34,14 +36,28 @@ h1 {
   border: 2px solid red;
 }
 
+.alerts, .controls {
+  margin: 20px;
+  padding: 20px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 15px;
+}
+
+button {
+  padding: 10px 15px;
+  margin: 5px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
 canvas {
   max-width: 90%;
   margin: 20px auto;
 }
 
-/* Mobile Responsive */
-@media (max-width: 768px) {
-  .card {
-    width: 90%;
-  }
+/* LIGHT MODE */
+.light-mode {
+  background: white;
+  color: black;
 }
