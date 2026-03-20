@@ -1,60 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smart Home Guardian</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Home Guardian</title>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+<link rel="stylesheet" href="style.css">
 
-  <!-- Chart.js -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database.js"></script>
+
 </head>
 
 <body>
 
-<h1>🏠 Smart Sustainable Home Guardian</h1>
+<header>
+  <h1>🏠 Smart Home Guardian</h1>
+  <button onclick="toggleTheme()">🌙</button>
+</header>
 
-<div class="container">
+<div class="dashboard">
 
+  <!-- SENSOR CARDS -->
   <div class="card">
-    <h2>🌡 Temperature</h2>
-    <p id="temp">-- °C</p>
+    <h3>🌡 Temperature</h3>
+    <p id="temp">--</p>
   </div>
 
   <div class="card">
-    <h2>🌫 Air Quality</h2>
+    <h3>🌫 Air Quality</h3>
     <p id="air">--</p>
   </div>
 
   <div class="card alert" id="gasCard">
-    <h2>🔥 Gas Status</h2>
+    <h3>🔥 Gas</h3>
     <p id="gas">Safe</p>
   </div>
 
   <div class="card">
-    <h2>💧 Water Level</h2>
-    <p id="water">--</p>
-  </div>
-
-  <div class="card">
-    <h2>🌱 Soil Moisture</h2>
+    <h3>🌱 Soil</h3>
     <p id="soil">--</p>
   </div>
 
   <div class="card">
-    <h2>💡 Light</h2>
+    <h3>💧 Water Tank</h3>
+    <p id="water">--</p>
+  </div>
+
+  <div class="card">
+    <h3>💡 Light</h3>
     <p id="light">--</p>
   </div>
 
 </div>
 
+<!-- ALERT PANEL -->
+<div class="alerts">
+  <h2>🚨 Alerts</h2>
+  <ul id="alertList"></ul>
+</div>
+
+<!-- CONTROL PANEL -->
+<div class="controls">
+  <h2>🎛 Controls</h2>
+  <button onclick="toggleDevice('light')">Toggle Light</button>
+  <button onclick="toggleDevice('pump')">Toggle Pump</button>
+</div>
+
+<!-- GRAPH -->
 <canvas id="chart"></canvas>
 
 <script src="script.js"></script>
-
 </body>
 </html>
